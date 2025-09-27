@@ -4,7 +4,7 @@ This is a pet project on Java, Spring for my university course. The goal of the 
 # Project Structure
 **Back-end**: Spring
 
-**UI**: Swagger UI
+**UI for Endpoint Testing**: Swagger UI
 
 **Database**: PostgreSQL
 
