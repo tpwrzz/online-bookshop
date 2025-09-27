@@ -8,6 +8,15 @@ This is a pet project on Java, Spring for my university course. The goal of the 
 
 **Database**: PostgreSQL
 
+# **Project Stage: Prototyping and planning**
+Planned Features:
+- User registration
+- Book browsing and filtering by genre, author, price
+- Cart management
+- Order processing and status tracking
+- Reviews and ratings for books
+- Swagger UI documentation for API testing
+
 # Bussines logic
 ## Short summary of the project
 The Online Bookshop allows users to browse, review, and purchase books. Each book has detailed information including title, author, genre, language, price, availability, page number, average rating, and user reviews.
@@ -54,11 +63,3 @@ The system manages relationships between users, books, orders, and reviews, ensu
   - Review Rating (1-5)
  
 
-# **Project Stage**: Prototyping and planning
-Planned Features:
-- User registration
-- Book browsing and filtering by genre, author, price
-- Cart management
-- Order processing and status tracking
-- Reviews and ratings for books
-- Swagger UI documentation for API testing
