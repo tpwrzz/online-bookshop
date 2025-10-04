@@ -8,7 +8,7 @@ public class Book {
     private String isbn;
     private String title;
     private Long authorId;
-    private Long genreId;
+    private Genre genre;
     private LocalDate releaseDate;
     private Long languageId;
     private int pagesNumber;
@@ -18,14 +18,14 @@ public class Book {
     private double averageRating;
     private List<Long> reviewIds;
 
-    public Book(Long id, String isbn, String title, Long authorId, Long genreId,
+    public Book(Long id, String isbn, String title, Long authorId, Genre genre,
                 LocalDate releaseDate, Long languageId, int pagesNumber, double price,
                 Long currencyId, Long availabilityId, double averageRating, List<Long> reviewIds) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.authorId = authorId;
-        this.genreId = genreId;
+        this.genre = genre;
         this.releaseDate = releaseDate;
         this.languageId = languageId;
         this.pagesNumber = pagesNumber;
@@ -69,12 +69,10 @@ public class Book {
     }
 
     public Long getGenreId() {
-        return genreId;
+        return genre.getId();
     }
 
-    public void setGenreId(Long genreId) {
-        this.genreId = genreId;
-    }
+    public void setGenre(Genre genre) { this.genre = genre; }
 
     public LocalDate getReleaseDate() {
         return releaseDate;

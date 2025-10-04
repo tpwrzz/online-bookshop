@@ -2,7 +2,6 @@ package com.online.bookshop.infrastructure.persistence;
 
 import com.online.bookshop.domain.model.enums.Availability;
 import com.online.bookshop.domain.model.enums.Currency;
-import com.online.bookshop.domain.model.enums.Genre;
 import com.online.bookshop.domain.model.enums.Language;
 import jakarta.persistence.*;
 
@@ -20,9 +19,9 @@ public class BookEntity {
     @Column(name = "title", length = 200, nullable = false)
     private String title;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "genre", length = 50, nullable = false)
-    private Genre genre;
+    @ManyToOne
+    @JoinColumn(name = "genre_id", nullable = false)
+    private GenreEntity genre;
 
     @Column(name = "price", nullable = false)
     private double price;
@@ -57,7 +56,7 @@ public class BookEntity {
 
     public BookEntity() {}
 
-    public BookEntity(String title, Genre genre, double price, Currency currency, Language language,
+    public BookEntity(String title, GenreEntity genre, double price, Currency currency, Language language,
                       int pageNumber, Availability availability, PersonEntity author) {
         this.title = title;
         this.genre = genre;
@@ -79,8 +78,12 @@ public class BookEntity {
         return title;
     }
 
-    public Genre getGenre() {
+    public GenreEntity getGenre() {
         return genre;
+    }
+
+    public void setGenre(GenreEntity genre) {
+        this.genre = genre;
     }
 
     public double getPrice() {
@@ -146,10 +149,6 @@ public class BookEntity {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
     }
 
     public void setLanguage(Language language) {
