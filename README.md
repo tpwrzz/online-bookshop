@@ -8,14 +8,14 @@ This is a pet project on Java, Spring for my university course. The goal of the 
 
 **Database**: PostgreSQL
 
+**Swagger Access**: [localhost swagger link](http://localhost:8080/swagger-ui/index.html#/)
+
 # **Project Stage: Prototyping and planning**
 Planned Features:
-- User registration
 - Book browsing and filtering by genre, author, price
 - Cart management
 - Order processing and status tracking
 - Reviews and ratings for books
-- Swagger UI documentation for API testing
 
 # Bussines logic
 ## Short summary of the project
