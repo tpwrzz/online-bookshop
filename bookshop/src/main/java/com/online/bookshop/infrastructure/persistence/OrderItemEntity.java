@@ -27,10 +27,11 @@ public class OrderItemEntity {
     public OrderItemEntity() {
     }
 
-    public OrderItemEntity(OrderEntity order , BookEntity book , int quantity) {
+    public OrderItemEntity(OrderEntity order, BookEntity book, int quantity, double unitPrice) {
         setOrder(order);
         setBook(book);
         setQuantity(quantity);
+        this.unitPrice = unitPrice;
     }
 
     public Long getId() {
@@ -69,6 +70,10 @@ public class OrderItemEntity {
 
     public double getUnitPrice() {
         return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     @Transient

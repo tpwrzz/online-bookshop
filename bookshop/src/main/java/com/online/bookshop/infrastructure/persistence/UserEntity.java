@@ -2,17 +2,19 @@ package com.online.bookshop.infrastructure.persistence;
 
 import com.online.bookshop.domain.model.enums.UserStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"email"})
-})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}), @UniqueConstraint(columnNames = {"username"})})
 public class UserEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,8 +23,23 @@ public class UserEntity {
     @Column(name = "status", length = 20, nullable = false)
     private UserStatus status;
 
+    @Email
+    @NotBlank
+    @Size(max = 100)
     @Column(name = "email", length = 100, nullable = false)
     private String email;
+
+    @NotBlank
+    @Size(min = 3, max = 50)
+    @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Username can only contain letters, numbers, dots, underscores and hyphens.")
+    @Column(name = "username", length = 50, nullable = false)
+    private String username;
+
+    @NotBlank
+    @Size(min = 8, max = 64)
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,64}$", message = "Password must be 8–64 characters, include uppercase, lowercase, digit, and special character.")
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "registration_date", nullable = false)
     private LocalDate registrationDate;
@@ -37,11 +54,14 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-    public UserEntity() {}
+    public UserEntity() {
+    }
 
-    public UserEntity(UserStatus status, String email, LocalDate registrationDate, PersonEntity person) {
+    public UserEntity(UserStatus status, String email, String username, String password, LocalDate registrationDate, PersonEntity person) {
         this.status = status;
         this.email = email;
+        setPassword(password);
+        setUsername(username);
         this.registrationDate = registrationDate;
         this.person = person;
     }
@@ -89,11 +109,6 @@ public class UserEntity {
         review.setUser(this);
     }
 
-    public void removeReview(ReviewEntity review) {
-        reviews.remove(review);
-        review.setUser(null);
-    }
-
     public void setStatus(UserStatus status) {
         this.status = status;
     }
@@ -116,5 +131,27 @@ public class UserEntity {
 
     public void setReviews(List<ReviewEntity> reviews) {
         this.reviews = reviews;
+    }
+
+    public @NotBlank @Size(min = 3, max = 50) @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Username can only contain letters, numbers, dots, underscores and hyphens.") String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        if (username == null || !username.matches("^[a-zA-Z0-9._-]{3,50}$")) {
+            throw new IllegalArgumentException("Invalid username format.");
+        }
+        this.username = username;
+    }
+
+    public @NotBlank @Size(min = 8, max = 64) @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,64}$", message = "Password must be 8–64 characters, include uppercase, lowercase, digit, and special character.") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        if (password == null || !password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,64}$")) {
+            throw new IllegalArgumentException("Password does not meet security requirements.");
+        }
+        this.password = password;
     }
 }

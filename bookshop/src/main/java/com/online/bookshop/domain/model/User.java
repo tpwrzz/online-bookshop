@@ -1,25 +1,35 @@
 package com.online.bookshop.domain.model;
 
+import com.online.bookshop.domain.model.enums.UserStatus;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private Long id;
-    private Long personId;
-    private Long statusId;
+    private UserStatus status;
     private String email;
+    private String username;
     private String password;
     private LocalDate registrationDate;
-    private String username;
+    private Long personId;
+    private List<Order> orders = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
-    public User(Long id, Long personId, Long statusId, String email,
-                String password, LocalDate registrationDate, String username) {
+    public User() {
+    }
+
+    public User(Long id, UserStatus status, String email, String username, String password, LocalDate registrationDate, Long personId, List<Order> orders, List<Review> reviews) {
         this.id = id;
-        this.personId = personId;
-        this.statusId = statusId;
+        this.status = status;
         this.email = email;
+        this.username = username;
         this.password = password;
         this.registrationDate = registrationDate;
-        this.username = username;
+        this.personId = personId;
+        this.orders = orders;
+        this.reviews = reviews;
     }
 
     public Long getId() {
@@ -36,14 +46,6 @@ public class User {
 
     public void setPersonId(Long personId) {
         this.personId = personId;
-    }
-
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
     }
 
     public String getEmail() {
@@ -76,5 +78,29 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

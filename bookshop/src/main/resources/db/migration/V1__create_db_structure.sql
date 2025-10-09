@@ -10,6 +10,7 @@ CREATE TABLE book
     availability   VARCHAR(20)                             NOT NULL,
     average_rating DOUBLE PRECISION                        NOT NULL,
     author_id      BIGINT                                  NOT NULL,
+    release_date date NOT NULL,
     CONSTRAINT pk_book PRIMARY KEY (id)
 );
 
@@ -69,11 +70,16 @@ CREATE TABLE users
     email             VARCHAR(100)                            NOT NULL,
     registration_date date                                    NOT NULL,
     person_id         BIGINT                                  NOT NULL,
+    username VARCHAR(50),
+    password VARCHAR(64),
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
 ALTER TABLE users
     ADD CONSTRAINT uc_74165e195b2f7b25de690d14a UNIQUE (email);
+
+ALTER TABLE users
+    ADD CONSTRAINT uc_77584fbe74cc86922be2a3560 UNIQUE (username);
 
 ALTER TABLE genre
     ADD CONSTRAINT uc_genre_name UNIQUE (name);
