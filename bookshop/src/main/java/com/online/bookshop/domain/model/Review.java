@@ -1,23 +1,18 @@
 package com.online.bookshop.domain.model;
 
-import java.time.LocalDate;
-
 public class Review {
     private Long id;
     private Long userId;
     private Long bookId;
     private String reviewMessage;
-    private int reviewRating; // 1–5
-    private LocalDate reviewDate;
+    private int reviewRating;
 
-    public Review(Long id, Long userId, Long bookId, String reviewMessage,
-                  int reviewRating, LocalDate reviewDate) {
+    public Review(Long id, Long userId, Long bookId, String reviewMessage, int reviewRating) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
         this.reviewMessage = reviewMessage;
         this.reviewRating = reviewRating;
-        this.reviewDate = reviewDate;
     }
 
     public Long getId() {
@@ -60,11 +55,4 @@ public class Review {
         this.reviewRating = reviewRating;
     }
 
-    public LocalDate getReviewDate() {
-        return reviewDate;
-    }
-
-    public void setReviewDate(LocalDate reviewDate) {
-        this.reviewDate = reviewDate;
-    }
 }

@@ -1,6 +1,8 @@
 package com.online.bookshop.infrastructure.persistence;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +28,10 @@ public class PersonEntity {
     private String address;
 
     @Column(name = "telephone_number", length = 20, unique = true)
+    @Pattern(
+            regexp = "^(\\+\\d{1,3}[- ]?)?\\d{7,15}$",
+            message = "Telephone number must be a valid format (e.g. +123456789 or 1234567890)"
+    )
     private String telephoneNumber;
 
     @Column(name = "birth_date", nullable = false)

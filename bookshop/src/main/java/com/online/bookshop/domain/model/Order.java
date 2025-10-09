@@ -1,25 +1,23 @@
 package com.online.bookshop.domain.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Order {
     private Long id;
-    private Long cartId;
-    private int quantity;
     private String shipAddress;
     private LocalDate orderDate;
     private Long orderStatusId;
-    private double totalPrice;
+    private Long userId;
+    private List<OrderItem> items;
 
-    public Order(Long id, Long cartId, int quantity, String shipAddress,
-                 LocalDate orderDate, Long orderStatusId, double totalPrice) {
+    public Order(Long id, String shipAddress, LocalDate orderDate, Long orderStatusId, Long userId, List<OrderItem> items) {
         this.id = id;
-        this.cartId = cartId;
-        this.quantity = quantity;
         this.shipAddress = shipAddress;
         this.orderDate = orderDate;
         this.orderStatusId = orderStatusId;
-        this.totalPrice = totalPrice;
+        this.userId = userId;
+        this.items = items;
     }
 
     public Long getId() {
@@ -28,22 +26,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public String getShipAddress() {
@@ -70,11 +52,19 @@ public class Order {
         this.orderStatusId = orderStatusId;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 }

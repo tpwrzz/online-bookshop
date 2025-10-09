@@ -5,6 +5,7 @@ import com.online.bookshop.domain.model.enums.Currency;
 import com.online.bookshop.domain.model.enums.Language;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,11 +54,12 @@ public class BookEntity {
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> orderItems = new ArrayList<>();
-
+    @Column(name = "release_date", nullable = false)
+    private LocalDate releaseDate;
     public BookEntity() {}
 
     public BookEntity(String title, GenreEntity genre, double price, Currency currency, Language language,
-                      int pageNumber, Availability availability, PersonEntity author) {
+                      int pageNumber, Availability availability, PersonEntity author, LocalDate releaseDate) {
         this.title = title;
         this.genre = genre;
         setPrice(price);
@@ -66,6 +68,7 @@ public class BookEntity {
         setPageNumber(pageNumber);
         this.availability = availability;
         this.author = author;
+        setReleaseDate(releaseDate);
     }
 
     // --- Getters and Setters ---
@@ -142,11 +145,6 @@ public class BookEntity {
         review.setBook(this);
     }
 
-    public void removeReview(ReviewEntity review) {
-        reviews.remove(review);
-        review.setBook(null);
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -173,5 +171,16 @@ public class BookEntity {
 
     public void setOrderItems(List<OrderItemEntity> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        if (releaseDate.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Release date cannot be in the future");
+        }
+        this.releaseDate = releaseDate;
     }
 }

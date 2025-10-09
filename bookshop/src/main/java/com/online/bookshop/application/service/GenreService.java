@@ -17,6 +17,8 @@ public class GenreService {
     }
 
     public List<Genre> findAll() {
+        List<Genre> all = repository.findAll();
+        System.out.println("Genres in DB: " + all.size());
         return repository.findAll();
     }
 

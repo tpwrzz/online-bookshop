@@ -5,10 +5,9 @@ import java.util.List;
 
 public class Book {
     private Long id;
-    private String isbn;
     private String title;
     private Long authorId;
-    private Genre genre;
+    private Long genreId;
     private LocalDate releaseDate;
     private Long languageId;
     private int pagesNumber;
@@ -18,14 +17,13 @@ public class Book {
     private double averageRating;
     private List<Long> reviewIds;
 
-    public Book(Long id, String isbn, String title, Long authorId, Genre genre,
+    public Book(Long id, String title, Long authorId, Long genreId,
                 LocalDate releaseDate, Long languageId, int pagesNumber, double price,
                 Long currencyId, Long availabilityId, double averageRating, List<Long> reviewIds) {
         this.id = id;
-        this.isbn = isbn;
         this.title = title;
         this.authorId = authorId;
-        this.genre = genre;
+        this.genreId = genreId;
         this.releaseDate = releaseDate;
         this.languageId = languageId;
         this.pagesNumber = pagesNumber;
@@ -36,20 +34,15 @@ public class Book {
         this.reviewIds = reviewIds;
     }
 
+    public Book() {
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -69,10 +62,12 @@ public class Book {
     }
 
     public Long getGenreId() {
-        return genre.getId();
+        return genreId;
     }
 
-    public void setGenre(Genre genre) { this.genre = genre; }
+    public void setGenreId(Long genreId) {
+        this.genreId = genreId;
+    }
 
     public LocalDate getReleaseDate() {
         return releaseDate;
