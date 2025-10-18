@@ -8,9 +8,11 @@ import com.online.bookshop.domain.repository.PersonRepository;
 import com.online.bookshop.domain.repository.UserRepository;
 import com.online.bookshop.infrastructure.mapper.PersonMapper;
 import com.online.bookshop.infrastructure.mapper.UserMapper;
+import com.online.bookshop.infrastructure.persistence.PersonEntity;
 import com.online.bookshop.infrastructure.persistence.UserEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,6 +25,46 @@ public class UserService {
     public UserService(UserRepository repository, PersonRepository personRepository) {
         this.repository = repository;
         this.personRepository = personRepository;
+    }
+
+    public Optional<User> authenticate(String username, String rawPassword) {
+        Optional<User> userOpt = repository.findByUsername(username);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            // NOTE: replace with bcrypt in production
+            if (user.getPassword() != null && user.getPassword().equals(rawPassword)) {
+                return Optional.of(user);
+            }
+        }
+        return Optional.empty();
+    }
+
+
+    public User signup(User toCreate) {
+        // minimal checks
+        if (toCreate.getUsername() == null || toCreate.getPassword() == null || toCreate.getEmail() == null) {
+            throw new IllegalArgumentException("username, email and password required");
+        }
+        if (repository.existsByUsername(toCreate.getUsername()) || repository.existsByEmail(toCreate.getEmail())) {
+            throw new IllegalArgumentException("user exists");
+        }
+        toCreate.setRegistrationDate(LocalDate.now());
+        toCreate.setStatus(UserStatus.ACTIVE);
+
+        UserEntity entity = UserMapper.toEntity(toCreate);
+
+        Person personDto = personRepository.findById(toCreate.getPersonId())
+                .orElseThrow(() -> new IllegalArgumentException("Person not found"));
+
+        PersonEntity personEntity = PersonMapper.toEntity(personDto);
+
+// assign the entity
+        entity.setPerson(personEntity);
+
+// save the entity — cascade takes care of PersonEntity if needed
+        User savedEntity = repository.save(UserMapper.toDomain(entity));
+        System.out.println(savedEntity.getPersonId());
+        return savedEntity;
     }
 
     public List<User> findAll() {

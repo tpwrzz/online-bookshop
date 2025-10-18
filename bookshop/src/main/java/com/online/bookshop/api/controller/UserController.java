@@ -1,11 +1,18 @@
 package com.online.bookshop.api.controller;
 
+import com.online.bookshop.api.dto.LoginRequest;
+import com.online.bookshop.api.dto.TokenResponse;
+import com.online.bookshop.api.security.JwtUtil;
+import com.online.bookshop.application.service.PersonService;
 import com.online.bookshop.application.service.UserService;
 import com.online.bookshop.domain.model.Review;
 import com.online.bookshop.domain.model.User;
 import com.online.bookshop.domain.model.enums.UserStatus;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +22,55 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil, PersonService personService) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
+    }
+
+    @PostMapping("/login")
+    @PermitAll
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
+        Optional<User> userOpt = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        return userOpt.map(user -> {
+            String token = jwtUtil.generateToken(user.getUsername(), user.getId());
+            return ResponseEntity.ok(new TokenResponse(token));
+        }).orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+//    @PostMapping("/signup")
+//    @PermitAll
+//    public ResponseEntity<User> signup(@RequestBody SignupRequest req) {
+//        try {
+//            User toCreate = new User();
+//            toCreate.setUsername(req.getUsername());
+//            toCreate.setEmail(req.getEmail());
+//            toCreate.setPassword(req.getPassword()); // hash in production
+//            Person person = new Person();
+//            person.setAddress(req.getAddress());
+//            person.setTelephone(req.getTelephone());
+//            person.setFirstName(req.getFirstName());
+//            person.setLastName(req.getLastName());
+//            person.setMiddleName(req.getMiddleName());
+//            person.setBirthDate(req.getBirthDate());
+//            Person newPerson = personService.save(person);
+//            toCreate.setPersonId(newPerson.getId());
+//            System.out.println(newPerson.getId());
+//            User created = userService.signup(toCreate);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+//        } catch (IllegalArgumentException ex) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//        }
+//    }
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<User> getCurrentUserInfo(Authentication auth) {
+        String username = auth.getName();
+        return userService.findByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping

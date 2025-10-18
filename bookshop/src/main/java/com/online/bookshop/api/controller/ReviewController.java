@@ -4,6 +4,7 @@ import com.online.bookshop.application.service.ReviewService;
 import com.online.bookshop.domain.model.Review;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +32,10 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<Review> createReview(@RequestBody Review review) {
-        Review savedReview = reviewService.save(review);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedReview);
+    public ResponseEntity<Review> createReview(@RequestBody Review review, Authentication auth) {
+        String username = auth.getName();
+        Review saved = reviewService.save(review);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/{id}")
