@@ -20,6 +20,9 @@ public class PersonMapper {
 
     public static PersonEntity toEntity(Person person) {
         PersonEntity entity = new PersonEntity();
+        if (person.getId() != null) {
+            entity.setId(person.getId());
+        }
         entity.setFirstName(person.getFirstName());
         entity.setMiddleName(person.getMiddleName());
         entity.setLastName(person.getLastName());

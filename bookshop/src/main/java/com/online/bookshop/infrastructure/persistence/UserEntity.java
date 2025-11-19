@@ -149,9 +149,10 @@ public class UserEntity {
     }
 
     public void setPassword(String password) {
-        if (password == null || !password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,64}$")) {
-            throw new IllegalArgumentException("Password does not meet security requirements.");
-        }
         this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

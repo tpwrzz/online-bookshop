@@ -49,7 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     getContext().setAuthentication(auth);
                 }
             } catch (JwtException ex) {
-                // invalid token — simply ignore and continue as anonymous
             }
         }
         filterChain.doFilter(request, response);

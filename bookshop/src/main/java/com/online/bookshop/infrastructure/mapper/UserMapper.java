@@ -62,7 +62,6 @@ public class UserMapper {
                         .map(ReviewMapper::toEntity)
                         .collect(Collectors.toList())
         );
-
         return entity;
     }
 }

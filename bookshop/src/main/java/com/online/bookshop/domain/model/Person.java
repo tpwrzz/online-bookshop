@@ -22,6 +22,9 @@ public class Person {
         this.birthDate = birthDate;
     }
 
+    public Person() {
+    }
+
     public Long getId() {
         return id;
     }

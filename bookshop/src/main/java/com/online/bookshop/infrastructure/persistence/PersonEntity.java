@@ -121,4 +121,8 @@ public class PersonEntity {
     public void setAuthoredBooks(List<BookEntity> authoredBooks) {
         this.authoredBooks = authoredBooks;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
