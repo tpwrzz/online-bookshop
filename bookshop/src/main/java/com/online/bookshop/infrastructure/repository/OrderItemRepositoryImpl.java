@@ -4,6 +4,7 @@ import com.online.bookshop.domain.model.OrderItem;
 import com.online.bookshop.domain.repository.OrderItemRepository;
 import com.online.bookshop.infrastructure.mapper.OrderItemMapper;
 import com.online.bookshop.infrastructure.persistence.OrderItemEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,13 +12,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class OrderItemRepositoryImpl implements OrderItemRepository {
 
     private final JpaOrderItemRepository jpaRepository;
-
-    public OrderItemRepositoryImpl(JpaOrderItemRepository jpaRepository) {
-        this.jpaRepository = jpaRepository;
-    }
 
     @Override
     public List<OrderItem> findAll() {

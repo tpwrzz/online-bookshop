@@ -7,6 +7,7 @@ import com.online.bookshop.domain.repository.UserRepository;
 import com.online.bookshop.infrastructure.mapper.ReviewMapper;
 import com.online.bookshop.infrastructure.mapper.UserMapper;
 import com.online.bookshop.infrastructure.persistence.UserEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,13 +15,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
     private final JpaUserRepository jpaRepo;
-
-    public UserRepositoryImpl(JpaUserRepository jpaUserRepository) {
-        this.jpaRepo = jpaUserRepository;
-    }
 
     @Override
     public List<User> findAll() {

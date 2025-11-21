@@ -1,8 +1,11 @@
 package com.online.bookshop.infrastructure.persistence;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Check;
 
+@Getter
 @Entity
 @Table(name = "reviews")
 @Check(constraints = "review_rating >= 1 AND review_rating <= 5")
@@ -11,14 +14,15 @@ public class ReviewEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     private BookEntity book;
 
+    @Setter
     @Column(name = "review_message", length = 1000, nullable = false)
     private String reviewMessage;
 
@@ -27,21 +31,6 @@ public class ReviewEntity {
 
     public ReviewEntity() {}
 
-    public ReviewEntity(UserEntity user, BookEntity book, String reviewMessage, int reviewRating) {
-        setUser(user);
-        setBook(book);
-        setReviewMessage(reviewMessage);
-        setReviewRating(reviewRating);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
     public void setUser(UserEntity user) {
         this.user = user;
         if (!user.getReviews().contains(this)) {
@@ -49,27 +38,11 @@ public class ReviewEntity {
         }
     }
 
-    public BookEntity getBook() {
-        return book;
-    }
-
     public void setBook(BookEntity book) {
         this.book = book;
         if (!book.getReviews().contains(this)) {
             book.addReview(this);
         }
-    }
-
-    public String getReviewMessage() {
-        return reviewMessage;
-    }
-
-    public void setReviewMessage(String reviewMessage) {
-        this.reviewMessage = reviewMessage;
-    }
-
-    public int getReviewRating() {
-        return reviewRating;
     }
 
     public void setReviewRating(int reviewRating) {

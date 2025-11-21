@@ -3,7 +3,9 @@ package com.online.bookshop.infrastructure.mapper;
 
 import com.online.bookshop.domain.model.Person;
 import com.online.bookshop.infrastructure.persistence.PersonEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PersonMapper {
 
     public static Person toDomain(PersonEntity entity) {

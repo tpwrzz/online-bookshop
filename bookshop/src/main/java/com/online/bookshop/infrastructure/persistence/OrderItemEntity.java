@@ -1,7 +1,10 @@
 package com.online.bookshop.infrastructure.persistence;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 @Entity
 @Table(name="order_items")
 public class OrderItemEntity {
@@ -10,44 +13,23 @@ public class OrderItemEntity {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id", nullable=false)
     private OrderEntity order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="book_id", nullable=false)
     private BookEntity book;
 
     @Column(name="quantity", nullable=false)
     private int quantity;
 
+    @Setter
     @Column(name="unit_price", nullable=false)
     private double unitPrice;
 
     public OrderItemEntity() {
-    }
-
-    public OrderItemEntity(OrderEntity order, BookEntity book, int quantity, double unitPrice) {
-        setOrder(order);
-        setBook(book);
-        setQuantity(quantity);
-        this.unitPrice = unitPrice;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public OrderEntity getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderEntity order) {
-        this.order = order;
-    }
-
-    public BookEntity getBook() {
-        return book;
     }
 
     public void setBook(BookEntity book) {
@@ -57,28 +39,10 @@ public class OrderItemEntity {
         }
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
     public void setQuantity(int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
         this.quantity = quantity;
     }
-
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    @Transient
-    public double getTotalPrice() {
-        return quantity * unitPrice;
-    }
-
 }

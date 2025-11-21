@@ -11,7 +11,7 @@ public interface BookRepository {
 
     Optional<Book> findById(Long id);
 
-    List<Book> findByTitle(String Title);
+    List<Book> findByTitle(String title);
 
     Book save(Book book);
 
@@ -19,17 +19,17 @@ public interface BookRepository {
 
     int bookCount();
 
-    List<Book> findByGenre(String GenreName);
+    List<Book> findByGenre(String genreName);
 
-    List<Book> findByAuthor(String Author);
+    List<Book> findByAuthor(String author);
 
-    List<Book> findByYear(int Year);
+    List<Book> findByYear(int year);
 
     List<Book> findByTitleContaining(String Title);
 
     List<Book> sortByPrice();
 
-    Book updatePrice(long BookId, double Price);
+    Book updatePrice(long BookId, double price);
 
     List<Review> findReviewsByBookId(Long bookId);
 

@@ -2,7 +2,9 @@ package com.online.bookshop.infrastructure.mapper;
 
 import com.online.bookshop.domain.model.OrderItem;
 import com.online.bookshop.infrastructure.persistence.OrderItemEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderItemMapper {
 
     public static OrderItem toDomain(OrderItemEntity entity) {

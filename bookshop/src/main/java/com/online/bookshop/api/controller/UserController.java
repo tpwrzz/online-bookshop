@@ -3,7 +3,6 @@ package com.online.bookshop.api.controller;
 import com.online.bookshop.api.dto.LoginRequest;
 import com.online.bookshop.api.dto.TokenResponse;
 import com.online.bookshop.api.security.JwtUtil;
-import com.online.bookshop.application.service.PersonService;
 import com.online.bookshop.application.service.UserService;
 import com.online.bookshop.domain.model.Review;
 import com.online.bookshop.domain.model.User;
@@ -24,7 +23,7 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    public UserController(UserService userService, JwtUtil jwtUtil, PersonService personService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
@@ -39,30 +38,6 @@ public class UserController {
         }).orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
-//    @PostMapping("/signup")
-//    @PermitAll
-//    public ResponseEntity<User> signup(@RequestBody SignupRequest req) {
-//        try {
-//            User toCreate = new User();
-//            toCreate.setUsername(req.getUsername());
-//            toCreate.setEmail(req.getEmail());
-//            toCreate.setPassword(req.getPassword()); // hash in production
-//            Person person = new Person();
-//            person.setAddress(req.getAddress());
-//            person.setTelephone(req.getTelephone());
-//            person.setFirstName(req.getFirstName());
-//            person.setLastName(req.getLastName());
-//            person.setMiddleName(req.getMiddleName());
-//            person.setBirthDate(req.getBirthDate());
-//            Person newPerson = personService.save(person);
-//            toCreate.setPersonId(newPerson.getId());
-//            System.out.println(newPerson.getId());
-//            User created = userService.signup(toCreate);
-//            return ResponseEntity.status(HttpStatus.CREATED).body(created);
-//        } catch (IllegalArgumentException ex) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-//        }
-//    }
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")

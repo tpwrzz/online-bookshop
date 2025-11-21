@@ -1,11 +1,12 @@
 package com.online.bookshop.infrastructure.mapper;
 
 import com.online.bookshop.domain.model.Order;
-import com.online.bookshop.domain.model.enums.OrderStatus;
 import com.online.bookshop.infrastructure.persistence.OrderEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class OrderMapper {
     public static Order toDomain(OrderEntity entity) {
         if (entity == null) return null;
@@ -14,7 +15,7 @@ public class OrderMapper {
                 entity.getId(),
                 entity.getShipAddress(),
                 entity.getOrderDate(),
-                (long) entity.getOrderStatus().ordinal() + 1, // map enum to id
+                entity.getOrderStatus(), // map enum to id
                 entity.getUser() != null ? entity.getUser().getId() : null,
                 entity.getItems()
                         .stream()
@@ -29,11 +30,7 @@ public class OrderMapper {
         OrderEntity entity = new OrderEntity();
         entity.setShipAddress(domain.getShipAddress());
         entity.setOrderDate(domain.getOrderDate());
-        entity.setOrderStatus(OrderStatus.values()[domain.getOrderStatusId().intValue() - 1]);
-
-        // user mapping should be handled externally
-        // entity.setUser(UserMapper.toEntity(domain.getUser()));
-
+        entity.setOrderStatus(domain.getOrderStatus());
         entity.setItems(
                 domain.getItems()
                         .stream()

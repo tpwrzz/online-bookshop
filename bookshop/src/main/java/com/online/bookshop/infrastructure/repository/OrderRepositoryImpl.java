@@ -4,19 +4,17 @@ import com.online.bookshop.domain.model.Order;
 import com.online.bookshop.domain.repository.OrderRepository;
 import com.online.bookshop.infrastructure.mapper.OrderMapper;
 import com.online.bookshop.infrastructure.persistence.OrderEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class OrderRepositoryImpl implements OrderRepository {
 
     private final JpaOrderRepository jpaRepo;
-
-    public OrderRepositoryImpl(JpaOrderRepository jpaRepo) {
-        this.jpaRepo = jpaRepo;
-    }
 
     @Override
     public List<Order> findAll() {

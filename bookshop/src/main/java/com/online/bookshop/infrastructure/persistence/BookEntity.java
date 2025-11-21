@@ -4,6 +4,8 @@ import com.online.bookshop.domain.model.enums.Availability;
 import com.online.bookshop.domain.model.enums.Currency;
 import com.online.bookshop.domain.model.enums.Language;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,105 +15,76 @@ import java.util.List;
 @Entity
 @Table(name = "book")
 public class BookEntity {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
+    @Getter
     @Column(name = "title", length = 200, nullable = false)
     private String title;
 
-    @ManyToOne
+    @Setter
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id", nullable = false)
     private GenreEntity genre;
 
+    @Getter
     @Column(name = "price", nullable = false)
     private double price;
 
+    @Setter
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(name = "currency", length = 10, nullable = false)
     private Currency currency;
 
+    @Setter
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(name = "language", length = 50, nullable = false)
     private Language language;
 
+    @Getter
     @Column(name = "page_number", nullable = false)
     private int pageNumber;
 
+    @Setter
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(name = "availability", length = 20, nullable = false)
     private Availability availability;
 
+    @Getter
     @Column(name = "average_rating", nullable = false)
     private double averageRating = 0.0;
 
-    @ManyToOne
+    @Setter
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private PersonEntity author;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Setter
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Setter
+    @Getter
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItemEntity> orderItems = new ArrayList<>();
+
+    @Getter
     @Column(name = "release_date", nullable = false)
     private LocalDate releaseDate;
+
     public BookEntity() {}
-
-    public BookEntity(String title, GenreEntity genre, double price, Currency currency, Language language,
-                      int pageNumber, Availability availability, PersonEntity author, LocalDate releaseDate) {
-        this.title = title;
-        this.genre = genre;
-        setPrice(price);
-        this.currency = currency;
-        this.language = language;
-        setPageNumber(pageNumber);
-        this.availability = availability;
-        this.author = author;
-        setReleaseDate(releaseDate);
-    }
-
-    // --- Getters and Setters ---
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public GenreEntity getGenre() {
-        return genre;
-    }
-
-    public void setGenre(GenreEntity genre) {
-        this.genre = genre;
-    }
-
-    public double getPrice() {
-        return price;
-    }
 
     public void setPrice(double price) {
         if (price < 0) throw new IllegalArgumentException("Price must be positive");
         this.price = price;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public int getPageNumber() {
-        return pageNumber;
     }
 
     public void setPageNumber(int pageNumber) {
@@ -119,21 +92,9 @@ public class BookEntity {
         this.pageNumber = pageNumber;
     }
 
-    public Availability getAvailability() {
-        return availability;
-    }
-
-    public double getAverageRating() {
-        return averageRating;
-    }
-
     public void setAverageRating(double averageRating) {
         if (averageRating < 0 || averageRating > 5) throw new IllegalArgumentException("Average rating must be between 0 and 5");
         this.averageRating = averageRating;
-    }
-
-    public PersonEntity getAuthor() {
-        return author;
     }
 
     public List<ReviewEntity> getReviews() {
@@ -143,38 +104,6 @@ public class BookEntity {
     public void addReview(ReviewEntity review) {
         reviews.add(review);
         review.setBook(this);
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
-    public void setAvailability(Availability availability) {
-        this.availability = availability;
-    }
-
-    public void setAuthor(PersonEntity author) {
-        this.author = author;
-    }
-
-    public void setReviews(List<ReviewEntity> reviews) {
-        this.reviews = reviews;
-    }
-
-    public List<OrderItemEntity> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItemEntity> orderItems) {
-        this.orderItems = orderItems;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
     }
 
     public void setReleaseDate(LocalDate releaseDate) {

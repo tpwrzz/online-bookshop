@@ -6,6 +6,7 @@ import com.online.bookshop.domain.model.Review;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book book) {
         Book saved = service.save(book);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.created(URI.create("/books/" + saved.getId())).body(saved);
     }
 
     @PutMapping("/{id}")

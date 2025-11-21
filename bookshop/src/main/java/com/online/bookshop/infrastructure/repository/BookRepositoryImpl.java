@@ -7,6 +7,7 @@ import com.online.bookshop.infrastructure.mapper.BookMapper;
 import com.online.bookshop.infrastructure.mapper.ReviewMapper;
 import com.online.bookshop.infrastructure.persistence.BookEntity;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,13 +15,10 @@ import java.util.Optional;
 
 @Repository
 @Transactional
+@RequiredArgsConstructor
 public class BookRepositoryImpl implements BookRepository {
 
     private final JpaBookRepository jpaRepo;
-
-    public BookRepositoryImpl(JpaBookRepository jpaRepo) {
-        this.jpaRepo = jpaRepo;
-    }
 
     @Override
     public List<Book> findAll() {
@@ -106,7 +104,6 @@ public class BookRepositoryImpl implements BookRepository {
                 .map(ReviewMapper::toDomain)
                 .toList();
     }
-
     @Override
     public Optional<Double> findAverageRatingByBookId(Long bookId) {
         return jpaRepo.findById(bookId)

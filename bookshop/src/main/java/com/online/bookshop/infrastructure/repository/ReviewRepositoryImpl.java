@@ -4,19 +4,17 @@ import com.online.bookshop.domain.model.Review;
 import com.online.bookshop.domain.repository.ReviewRepository;
 import com.online.bookshop.infrastructure.mapper.ReviewMapper;
 import com.online.bookshop.infrastructure.persistence.ReviewEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepository {
 
     private final JpaReviewRepository jpaRepo;
-
-    public ReviewRepositoryImpl(JpaReviewRepository jpaRepo) {
-        this.jpaRepo = jpaRepo;
-    }
 
     @Override
     public List<Review> findAll() {

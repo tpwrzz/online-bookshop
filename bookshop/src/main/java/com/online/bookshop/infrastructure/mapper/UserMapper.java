@@ -2,9 +2,11 @@ package com.online.bookshop.infrastructure.mapper;
 
 import com.online.bookshop.domain.model.User;
 import com.online.bookshop.infrastructure.persistence.UserEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class UserMapper {
 
     public static User toDomain(UserEntity entity) {

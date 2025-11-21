@@ -35,6 +35,9 @@ public class OrderService {
         OrderEntity entity = OrderMapper.toEntity(order);
         Optional<User> user = userRepository.findById(order.getUserId());
         entity.setUser(UserMapper.toEntity(user.orElse(null)));
+
+        //save order item
+
         return repository.save(OrderMapper.toDomain(entity));
     }
 

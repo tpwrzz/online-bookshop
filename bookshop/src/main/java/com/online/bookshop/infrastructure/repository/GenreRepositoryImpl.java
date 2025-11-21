@@ -4,19 +4,17 @@ import com.online.bookshop.domain.model.Genre;
 import com.online.bookshop.domain.repository.GenreRepository;
 import com.online.bookshop.infrastructure.mapper.GenreMapper;
 import com.online.bookshop.infrastructure.persistence.GenreEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class GenreRepositoryImpl implements GenreRepository {
 
     private final JpaGenreRepository jpaRepo;
-
-    public GenreRepositoryImpl(JpaGenreRepository jpaRepo) {
-        this.jpaRepo = jpaRepo;
-    }
 
     @Override
     public List<Genre> findAll() {

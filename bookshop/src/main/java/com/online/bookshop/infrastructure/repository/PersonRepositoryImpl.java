@@ -4,19 +4,17 @@ import com.online.bookshop.domain.model.Person;
 import com.online.bookshop.domain.repository.PersonRepository;
 import com.online.bookshop.infrastructure.mapper.PersonMapper;
 import com.online.bookshop.infrastructure.persistence.PersonEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class PersonRepositoryImpl implements PersonRepository {
 
     private final JpaPersonRepository jpaRepo;
-
-    public PersonRepositoryImpl(JpaPersonRepository jpaRepo) {
-        this.jpaRepo = jpaRepo;
-    }
 
     @Override
     public List<Person> findAll() {

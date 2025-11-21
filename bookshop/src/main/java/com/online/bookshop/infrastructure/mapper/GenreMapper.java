@@ -2,7 +2,9 @@ package com.online.bookshop.infrastructure.mapper;
 
 import com.online.bookshop.domain.model.Genre;
 import com.online.bookshop.infrastructure.persistence.GenreEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GenreMapper {
     public static Genre toDomain(GenreEntity entity) {
         return new Genre(
