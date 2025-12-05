@@ -1,14 +1,12 @@
 package com.online.bookshop.application.service;
 
 import com.online.bookshop.domain.model.Order;
-import com.online.bookshop.domain.model.User;
+import com.online.bookshop.domain.model.OrderItem;
 import com.online.bookshop.domain.repository.OrderRepository;
-import com.online.bookshop.domain.repository.UserRepository;
-import com.online.bookshop.infrastructure.mapper.OrderMapper;
-import com.online.bookshop.infrastructure.mapper.UserMapper;
-import com.online.bookshop.infrastructure.persistence.OrderEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +14,9 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository repository;
-    private final UserRepository userRepository;
 
-    public OrderService(OrderRepository repository, UserRepository userRepository) {
+    public OrderService(OrderRepository repository) {
         this.repository = repository;
-        this.userRepository = userRepository;
     }
 
     public List<Order> findAll() {
@@ -31,14 +27,16 @@ public class OrderService {
         return repository.findById(id);
     }
 
+    @Transactional
     public Order save(Order order) {
-        OrderEntity entity = OrderMapper.toEntity(order);
-        Optional<User> user = userRepository.findById(order.getUserId());
-        entity.setUser(UserMapper.toEntity(user.orElse(null)));
-
-        //save order item
-
-        return repository.save(OrderMapper.toDomain(entity));
+        Order saved = repository.save(order);
+        List<OrderItem> new_items = new ArrayList<>();
+        for (OrderItem item : saved.getItems()) {
+            item.setOrderId(saved.getId());
+            new_items.add(item);
+        }
+        saved.setItems(new_items);
+        return saved;
     }
 
     public void deleteById(Long id) {

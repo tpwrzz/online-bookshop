@@ -14,8 +14,8 @@ public class BookMapper {
         Book book = new Book();
         book.setId(entity.getId());
         book.setTitle(entity.getTitle());
-        book.setGenre(GenreMapper.toDomain(entity.getGenre()));
-        book.setAuthor(PersonMapper.toDomain(entity.getAuthor()));
+        book.setGenreId(entity.getGenre().getId());
+        book.setAuthorId(entity.getAuthor().getId());
         book.setLanguage(entity.getLanguage());
         book.setCurrency(entity.getCurrency());
         book.setAvailability(entity.getAvailability());
@@ -36,11 +36,12 @@ public class BookMapper {
 
     public static BookEntity toEntity(Book book) {
         if (book == null) return null;
-
         BookEntity entity = new BookEntity();
+
+        if (book.getId() != 0) entity.setId(book.getId());
         entity.setTitle(book.getTitle());
-        entity.setGenre(GenreMapper.toEntity(book.getGenre()));
-        entity.setAuthor(PersonMapper.toEntity(book.getAuthor()));
+        entity.setGenre(GenreMapper.ref(book.getGenreId()));
+        entity.setAuthor(PersonMapper.ref(book.getAuthorId()));
         entity.setLanguage(book.getLanguage());
         entity.setCurrency(book.getCurrency());
         entity.setAvailability(book.getAvailability());
@@ -58,6 +59,13 @@ public class BookMapper {
             );
         }
 
+        return entity;
+    }
+
+    public static BookEntity refBook(Long bookId) {
+        if (bookId == null) return null;
+        BookEntity entity = new BookEntity();
+        entity.setId(bookId);
         return entity;
     }
 }

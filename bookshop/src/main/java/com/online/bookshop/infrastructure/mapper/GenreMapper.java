@@ -15,7 +15,17 @@ public class GenreMapper {
 
     public static GenreEntity toEntity(Genre genre) {
         GenreEntity entity = new GenreEntity();
+        if (genre.getId() != 0) entity.setId(genre.getId());
         entity.setName(genre.getName());
+        return entity;
+    }
+
+    public static GenreEntity ref(Long genreId) {
+        if (genreId == null) return null;
+
+        GenreEntity entity = new GenreEntity();
+        // Устанавливаем только ID — этого достаточно
+        entity.setId(genreId);
         return entity;
     }
 }

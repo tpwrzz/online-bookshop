@@ -16,6 +16,7 @@ public class OrderEntity {
 
     @Getter
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -42,7 +43,7 @@ public class OrderEntity {
     private UserEntity user;
 
     @Setter
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItemEntity> items = new ArrayList<>();
 
     public OrderEntity() {}

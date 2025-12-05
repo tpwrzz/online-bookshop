@@ -24,10 +24,6 @@ public class BookService {
         return repository.findById(id);
     }
 
-    public List<Book> findByTitle(String title) {
-        return repository.findByTitle(title);
-    }
-
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
@@ -60,10 +56,6 @@ public class BookService {
         return repository.sortByPrice();
     }
 
-    public Book updatePrice(Long id, double newPrice) {
-        return repository.updatePrice(id, newPrice);
-    }
-
     public List<Review> getReviewsByBookId(Long bookId) {
         return repository.findReviewsByBookId(bookId);
     }
@@ -79,5 +71,4 @@ public class BookService {
     public List<Review> getReviewsByBookIdAndRating(Long bookId, double rating) {
         return repository.findReviewsByBookIdAndRating(bookId, rating);
     }
-
 }

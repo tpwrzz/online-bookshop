@@ -22,6 +22,9 @@ public class ReviewMapper {
         if (domain == null) return null;
 
         ReviewEntity entity = new ReviewEntity();
+        if (domain.getId() != 0) entity.setId(domain.getId());
+        entity.setUser(UserMapper.refUser(domain.getUserId()));
+        entity.setBook(BookMapper.refBook(domain.getBookId()));
         entity.setReviewMessage(domain.getReviewMessage());
         entity.setReviewRating(domain.getReviewRating());
         return entity;

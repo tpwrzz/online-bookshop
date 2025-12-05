@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface JpaPersonRepository extends JpaRepository<PersonEntity, Long> {
-    List<PersonEntity> findByLastNameIgnoreCase(String lastName);
+    List<PersonEntity> findByLastNameContainingIgnoreCase(String lastName);
 }

@@ -22,9 +22,7 @@ public class PersonMapper {
 
     public static PersonEntity toEntity(Person person) {
         PersonEntity entity = new PersonEntity();
-        if (person.getId() != null) {
-            entity.setId(person.getId());
-        }
+        if (person.getId() != 0) entity.setId(person.getId());
         entity.setFirstName(person.getFirstName());
         entity.setMiddleName(person.getMiddleName());
         entity.setLastName(person.getLastName());
@@ -33,4 +31,14 @@ public class PersonMapper {
         entity.setBirthDate(person.getBirthDate());
         return entity;
     }
+
+    public static PersonEntity ref(Long authorId) {
+        if (authorId == null) return null;
+
+        PersonEntity entity = new PersonEntity();
+        entity.setId(authorId);
+        return entity;
+    }
 }
+
+

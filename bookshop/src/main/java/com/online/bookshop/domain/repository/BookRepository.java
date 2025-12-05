@@ -11,8 +11,6 @@ public interface BookRepository {
 
     Optional<Book> findById(Long id);
 
-    List<Book> findByTitle(String title);
-
     Book save(Book book);
 
     void deleteById(Long id);
@@ -28,8 +26,6 @@ public interface BookRepository {
     List<Book> findByTitleContaining(String Title);
 
     List<Book> sortByPrice();
-
-    Book updatePrice(long BookId, double price);
 
     List<Review> findReviewsByBookId(Long bookId);
 

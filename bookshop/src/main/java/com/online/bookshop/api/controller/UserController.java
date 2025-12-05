@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.http.ResponseEntity.notFound;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -45,7 +47,7 @@ public class UserController {
         String username = auth.getName();
         return userService.findByUsername(username)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(notFound().build());
     }
 
     @GetMapping
@@ -58,21 +60,21 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.findById(id);
         return user.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(notFound().build());
     }
 
     @GetMapping("/email")
     public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
         Optional<User> user = userService.findByEmail(email);
         return user.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(notFound().build());
     }
 
     @GetMapping("/username")
     public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
         Optional<User> user = userService.findByUsername(username);
         return user.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(notFound().build());
     }
 
     @GetMapping("/status")
@@ -81,7 +83,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/searchByUsernameOrEmail")
     public ResponseEntity<List<User>> searchUsers(@RequestParam String query) {
         List<User> users = userService.findByUsernameOrEmailContaining(query);
         return ResponseEntity.ok(users);
@@ -89,9 +91,6 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        if (userService.existsByEmail(user.getEmail()) || userService.existsByUsername(user.getUsername())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
         User savedUser = userService.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
@@ -100,7 +99,7 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         Optional<User> existingUser = userService.findById(id);
         if (existingUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return notFound().build();
         }
         user.setId(id); // ensure correct ID
         User updatedUser = userService.save(user);
@@ -111,17 +110,17 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         Optional<User> existingUser = userService.findById(id);
         if (existingUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return notFound().build();
         }
         userService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<Review>> getReviewsByUser(@PathVariable Long id) {
         List<Review> reviews = userService.getReviewsByUserId(id);
         if (reviews.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return notFound().build();
         }
         return ResponseEntity.ok(reviews);
     }

@@ -34,11 +34,6 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findByTitle(String Title) {
-        return jpaRepo.findByTitle(Title).stream().map(BookMapper::toDomain).toList();
-    }
-
-    @Override
     public Book save(Book book) {
         BookEntity entity = jpaRepo.save(BookMapper.toEntity(book));
         return BookMapper.toDomain(entity);
@@ -56,14 +51,14 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> findByGenre(String GenreName) {
-        return jpaRepo.findByGenre_Name(GenreName).stream()
+        return jpaRepo.findByGenre_NameContainingIgnoreCase(GenreName).stream()
                 .map(BookMapper::toDomain)
                 .toList();
     }
 
     @Override
     public List<Book> findByAuthor(String Author) {
-        return jpaRepo.findByAuthor_FirstName(Author).stream()
+        return jpaRepo.findByAuthor_FirstNameContainingIgnoreCase(Author).stream()
                 .map(BookMapper::toDomain)
                 .toList();
     }
@@ -87,12 +82,6 @@ public class BookRepositoryImpl implements BookRepository {
         return jpaRepo.findAllByOrderByPriceAsc().stream()
                 .map(BookMapper::toDomain)
                 .toList();
-    }
-
-    @Override
-    public Book updatePrice(long BookId, double Price) {
-        BookEntity entity = jpaRepo.updatePrice(BookId, Price);
-        return BookMapper.toDomain(entity);
     }
 
     @Override

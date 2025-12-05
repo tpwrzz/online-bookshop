@@ -12,8 +12,8 @@ public class OrderItemMapper {
 
         return new OrderItem(
                 entity.getId(),
-                entity.getOrder() != null ? entity.getOrder().getId() : null,
-                entity.getBook() != null ? entity.getBook().getId() : null,
+                entity.getOrder().getId(),
+                entity.getBook().getId(),
                 entity.getQuantity(),
                 entity.getUnitPrice()
         );
@@ -23,6 +23,9 @@ public class OrderItemMapper {
         if (domain == null) return null;
 
         OrderItemEntity entity = new OrderItemEntity();
+        if (domain.getId() != 0) entity.setId(domain.getId());
+        entity.setOrder(OrderMapper.refOrder(domain.getOrderId()));
+        entity.setBook(BookMapper.refBook(domain.getBookId()));
         entity.setQuantity(domain.getQuantity());
         entity.setUnitPrice(domain.getUnitPrice());
         return entity;

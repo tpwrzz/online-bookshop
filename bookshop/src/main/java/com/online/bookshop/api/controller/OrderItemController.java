@@ -37,11 +37,22 @@ public class OrderItemController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/order/{orderId}")
     public List<OrderItem> getByOrderId(@PathVariable Long orderId) {
         return service.findByOrderId(orderId);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderItem> update(@PathVariable Long id, @RequestBody OrderItem orderItem) {
+        return service.findById(id)
+                .map(existing -> {
+                    orderItem.setId(id);
+                    OrderItem saved = service.save(orderItem);
+                    return ResponseEntity.ok(saved);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }

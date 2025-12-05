@@ -11,6 +11,7 @@ import org.hibernate.annotations.Check;
 @Check(constraints = "review_rating >= 1 AND review_rating <= 5")
 public class ReviewEntity {
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

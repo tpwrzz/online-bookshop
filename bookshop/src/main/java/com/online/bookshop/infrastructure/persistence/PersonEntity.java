@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public class PersonEntity {
     @Getter
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

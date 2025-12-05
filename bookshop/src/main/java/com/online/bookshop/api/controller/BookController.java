@@ -30,11 +30,6 @@ public class BookController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/searchByTitle")
-    public ResponseEntity<List<Book>> findByTitle(@RequestParam String title) {
-        return ResponseEntity.ok(service.findByTitle(title));
-    }
-
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book book) {
         Book saved = service.save(book);
@@ -43,15 +38,19 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book) {
-        book.setId(id);
-        Book updated = service.save(book);
-        return ResponseEntity.ok(updated);
+        return service.findById(id)
+                .map(existing -> {
+                    book.setId(id);
+                    Book saved = service.save(book);
+                    return ResponseEntity.ok(saved);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/count")
@@ -84,18 +83,6 @@ public class BookController {
         return ResponseEntity.ok(service.sortByPrice());
     }
 
-    @PatchMapping("/{id}/price")
-    public ResponseEntity<Book> updatePrice(
-            @PathVariable("id") Long bookId,
-            @RequestParam double price
-    ) {
-        Book updated = service.updatePrice(bookId, price);
-        if (updated == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(updated);
-    }
-
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<Review>> getReviewsByBookId(@PathVariable Long id) {
         return ResponseEntity.ok(service.getReviewsByBookId(id));
@@ -119,5 +106,4 @@ public class BookController {
             @RequestParam double rating) {
         return ResponseEntity.ok(service.getReviewsByBookIdAndRating(id, rating));
     }
-
 }

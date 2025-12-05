@@ -31,7 +31,7 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     @Override
     public List<Genre> findByName(String Name) {
-        return jpaRepo.findByNameIgnoreCase(Name).stream()
+        return jpaRepo.findByNameContainingIgnoreCase(Name).stream()
                 .map(GenreMapper::toDomain)
                 .toList();
     }

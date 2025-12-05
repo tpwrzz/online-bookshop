@@ -14,8 +14,8 @@ import java.util.List;
 public class Book {
     private Long id;
     private String title;
-    private Person author;
-    private Genre genre;
+    private Long authorId;
+    private Long genreId;
     private LocalDate releaseDate;
     private Language language;
     private int pagesNumber;
@@ -27,5 +27,4 @@ public class Book {
 
     public Book() {
     }
-
 }

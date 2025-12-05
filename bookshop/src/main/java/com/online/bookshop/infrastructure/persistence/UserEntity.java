@@ -57,7 +57,7 @@ public class UserEntity {
 
     @Setter
     @Getter
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", nullable = false, unique = true)
     private PersonEntity person;
 

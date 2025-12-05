@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface JpaGenreRepository extends JpaRepository<GenreEntity, Long> {
-    List<GenreEntity> findByNameIgnoreCase(String Name);
+    List<GenreEntity> findByNameContainingIgnoreCase(String Name);
 }

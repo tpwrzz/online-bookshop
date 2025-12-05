@@ -31,7 +31,7 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public List<Person> findByLastName(String lastName) {
-        return jpaRepo.findByLastNameIgnoreCase(lastName).stream()
+        return jpaRepo.findByLastNameContainingIgnoreCase(lastName).stream()
                 .map(PersonMapper::toDomain)
                 .toList();
     }
